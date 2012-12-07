@@ -51,6 +51,7 @@ use JMS\Serializer\Metadata\VirtualPropertyMetadata;
 use JMS\Serializer\Exception\InvalidArgumentException;
 use JMS\Serializer\Annotation\XmlAttributeMap;
 use Metadata\Driver\DriverInterface;
+use JMS\Serializer\Annotation\MaxDepth;
 
 class AnnotationDriver implements DriverInterface
 {
@@ -182,6 +183,8 @@ class AnnotationDriver implements DriverInterface
                         $propertyMetadata->inline = true;
                     } elseif ($annot instanceof XmlAttributeMap) {
                         $propertyMetadata->xmlAttributeMap = true;
+                    } elseif ($annot instanceof MaxDepth) {
+                        $propertyMetadata->maxDepth = $annot->depth;
                     }
                 }
 

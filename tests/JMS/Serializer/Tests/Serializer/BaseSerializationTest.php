@@ -78,6 +78,8 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use PhpCollection\Map;
+use JMS\Serializer\Exclusion\DepthExclusionStrategy;
+use JMS\Serializer\Tests\Fixtures\Node;
 
 abstract class BaseSerializationTest extends \PHPUnit_Framework_TestCase
 {
@@ -630,6 +632,25 @@ abstract class BaseSerializationTest extends \PHPUnit_Framework_TestCase
 
         $this->serializer->setSerializeNull(true);
         $this->assertEquals($this->getContent('object_when_null_and_serialized'), $this->serialize(new Comment(null, 'foo')));
+    }
+
+    public function testDepthExclusionStrategy()
+    {
+        $this->serializer->setExclusionStrategy(new DepthExclusionStrategy());
+
+        $rootNode = new Node(array(
+            new Node(array(
+                new Node(array(
+                    new Node(array(
+                        new Node(array(
+                            new Node(),
+                        )),
+                    )),
+                )),
+            )),
+        ));
+
+        $this->assertEquals($this->getContent('tree'), $this->serializer->serialize($rootNode, $this->getFormat()));
     }
 
     abstract protected function getContent($key);

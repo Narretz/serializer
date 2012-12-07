@@ -16,21 +16,17 @@
  * limitations under the License.
  */
 
-namespace JMS\Serializer\Tests\Fixtures;
+namespace JMS\Serializer\Annotation;
 
-use JMS\Serializer\Annotation as Serializer;
-
-class Node
+/**
+ * @Annotation
+ * @Target({"PROPERTY","METHOD"})
+ */
+final class MaxDepth
 {
     /**
-     * @Serializer\MaxDepth(3)
+     * @Required
+     * @var integer
      */
-    public $children;
-
-    public $foo = 'bar';
-
-    public function __construct($children = array())
-    {
-        $this->children = $children;
-    }
+    public $depth;
 }

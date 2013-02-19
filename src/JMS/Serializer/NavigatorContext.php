@@ -102,7 +102,13 @@ class NavigatorContext
 
     public function getDepth()
     {
-        return $this->visitingStack->count();
+        $depth = 0;
+        foreach ($this->visitingStack as $obj) {
+            if (!$obj instanceof \Doctrine\Common\Collections\Collection) {
+                $depth++;
+            }
+        }
+        return $depth;
     }
 
     public function getObject()

@@ -4,6 +4,11 @@
     <entry>
       <children>
         <entry>
+          <children>
+            <entry>
+              <foo><![CDATA[bar]]></foo>
+            </entry>
+          </children>
           <foo><![CDATA[bar]]></foo>
         </entry>
       </children>

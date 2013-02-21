@@ -24,8 +24,9 @@ use JMS\Serializer\EventDispatcher\EventDispatcherInterface;
 use JMS\Serializer\Exception\UnsupportedFormatException;
 use Metadata\MetadataFactoryInterface;
 use JMS\Serializer\Exclusion\ChainExclusionStrategy;
-use JMS\Serializer\Exclusion\VersionExclusionStrategy;
+use JMS\Serializer\Exclusion\DepthExclusionStrategy;
 use JMS\Serializer\Exclusion\GroupsExclusionStrategy;
+use JMS\Serializer\Exclusion\VersionExclusionStrategy;
 use JMS\Serializer\Exclusion\ExclusionStrategyInterface;
 use PhpCollection\MapInterface;
 
@@ -138,6 +139,25 @@ class Serializer implements SerializerInterface
         }
 
         $strategy = new GroupsExclusionStrategy((array) $groups);
+        $this->addExclusionStrategy($strategy);
+    }
+
+    /**
+    * @param bool $maxDepth
+    */
+    public function setMaxDepth($maxDepth)
+    {
+        if (null === $maxDepth || false === $maxDepth) {
+            if ($this->exclusionStrategy instanceof ChainExclusionStrategy) {
+                $this->exclusionStrategy->removeExclusionStrategy('JMS\Serializer\Exclusion\DepthExclusionStrategy');
+            } else {
+                $this->exclusionStrategy = null;
+            }
+
+            return;
+        }
+
+        $strategy = new DepthExclusionStrategy();
         $this->addExclusionStrategy($strategy);
     }
 

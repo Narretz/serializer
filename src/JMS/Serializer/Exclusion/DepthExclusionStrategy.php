@@ -44,6 +44,6 @@ class DepthExclusionStrategy implements ExclusionStrategyInterface
             return false;
         }
 
-        return $property->maxDepth <= $navigatorContext->getDepth();
+        return $property->maxDepth < $navigatorContext->getDepth();
     }
 }
